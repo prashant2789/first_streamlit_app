@@ -11,6 +11,7 @@ streamlit.header('🍌🥭 Build Your Own Fruit Smoothie 🥝🍇')
 
 import requests
 import pandas
+from urllib.error import URLError
 
 my_fruit_list = pandas.read_csv("https://uni-lab-files.s3.us-west-2.amazonaws.com/dabw/fruit_macros.txt")
 my_fruit_list = my_fruit_list.set_index('Fruit')
@@ -31,7 +32,7 @@ try:
     fruityvice_response = request.get("https://fruityvice.com/api/fruit/"+ fruit_choice);
     fruityvice_normalised = pandas.json_normalize(fruityvice_response.json());
     streamlit.dataframe(fruityvice_normalised)
-except URLerror as e:
+except URLError as e:
   streamlit.error();
   
 streamlit.write('The user entered ', fruit_choice)
